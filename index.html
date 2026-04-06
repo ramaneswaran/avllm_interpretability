@@ -13,6 +13,8 @@
       --border: #e5e5e5;
       --accent: #d85a30;
       --details-bg: #f5f5f5;
+      --sidebar-w: 220px;
+      --topbar-h: 52px;
     }
     [data-theme="dark"] {
       --bg: #1a1915;
@@ -35,24 +37,19 @@
       transition: background 0.2s, color 0.2s;
     }
 
-    /* Top bar */
+    /* ── Top bar ── */
     .topbar {
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding: 1rem 2rem;
+      padding: 0 2rem;
+      height: var(--topbar-h);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       background: var(--bg);
-      z-index: 10;
+      z-index: 20;
       transition: background 0.2s;
-    }
-    .site-name {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: 0.01em;
     }
     .toggle {
       background: none;
@@ -69,27 +66,79 @@
     }
     .toggle:hover { border-color: var(--text3); }
 
-    /* Hero */
+    /* ── Page layout: sidebar + content ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: var(--topbar-h);
+      height: calc(100vh - var(--topbar-h));
+      overflow-y: auto;
+      padding: 2rem 1.25rem 2rem 1.5rem;
+      border-right: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .sidebar-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text3);
+      margin-bottom: 0.6rem;
+    }
+    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 1px; }
+    .sidebar-nav li a {
+      display: block;
+      font-size: 13px;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background 0.12s, color 0.12s;
+      line-height: 1.4;
+    }
+    .sidebar-nav li a:hover { background: var(--details-bg); color: var(--text); }
+    .sidebar-nav li a.active { background: var(--details-bg); color: var(--text); font-weight: 500; }
+    .sidebar-nav li.sub a { padding-left: 1.4rem; font-size: 12.5px; }
+    .sidebar-bottom {
+      margin-top: 2rem;
+      font-size: 12px;
+      color: var(--text3);
+    }
+    .sidebar-bottom a { color: var(--text3); text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ── Main content ── */
+    .main-content {
+      min-width: 0;
+      padding: 0 3.5rem 8rem 3rem;
+    }
+
+    /* ── Hero ── */
     .hero {
       text-align: center;
-      padding: 2rem 0 1.5rem;
+      padding: 2.5rem 0 1.5rem;
     }
     .hero h1 {
-      font-size: 2.6rem;
+      font-size: 2.4rem;
       font-weight: 700;
       line-height: 1.15;
       letter-spacing: -0.02em;
       margin-bottom: 1.25rem;
       color: var(--text);
-      text-align: center;
     }
-    .hero-authors { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
-    .hero-names { font-size: 15px; color: var(--text2); max-width: 560px; line-height: 1.7; }
+    .hero-authors { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
+    .hero-names { font-size: 15px; color: var(--text2); max-width: 620px; line-height: 1.7; }
     .hero-names sup { font-size: 10px; }
     .hero-note { font-size: 12px; color: var(--text3); }
     .hero-affil { font-size: 15px; color: var(--text2); margin-top: 0.2rem; }
-    .hero-venue { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-top: 0.5rem; letter-spacing: 0.01em; }
-    .hero-links { display: flex; gap: 10px; margin-top: 1.25rem; }
+    .hero-venue { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-top: 0.5rem; letter-spacing: 0.01em; }
+    .hero-links { display: flex; gap: 10px; margin-top: 1.25rem; flex-wrap: wrap; justify-content: center; }
     .pill-btn {
       display: inline-flex;
       align-items: center;
@@ -105,44 +154,42 @@
     }
     .pill-btn:hover { opacity: 0.8; color: var(--bg); }
 
-    /* Article layout */
-    article {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 0 2rem 8rem;
-    }
-
     hr {
       border: none;
       border-top: 1px solid var(--border);
       margin: 2rem 0;
     }
 
-    /* tl;dr */
+    /* ── TL;DR ── */
     .tldr {
       display: flex;
       gap: 1.5rem;
-      margin: 2rem 0 2.5rem;
+      margin: 1.75rem 0 2rem;
+      background: var(--details-bg);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
     }
     .tldr-label {
       font-size: 13px;
+      font-weight: 700;
       color: var(--text3);
-      padding-top: 3px;
+      padding-top: 2px;
       white-space: nowrap;
       flex-shrink: 0;
+      letter-spacing: 0.02em;
     }
     .tldr-body {
-      font-size: 16px;
+      font-size: 15px;
       font-style: italic;
       color: var(--text2);
       line-height: 1.7;
     }
 
-    /* Body text */
-    p { margin-bottom: 1.4rem; font-size: 18px; color: var(--text); }
+    /* ── Body text ── */
+    p { margin-bottom: 1.4rem; font-size: 17px; color: var(--text); }
 
     h2 {
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       font-weight: 700;
       letter-spacing: -0.015em;
       margin: 3.5rem 0 0.75rem;
@@ -150,66 +197,253 @@
     }
     h2 + hr { margin-top: 0.75rem; margin-bottom: 1.75rem; }
 
-    a {
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 2.5rem 0 0.75rem;
       color: var(--text);
-      text-decoration: underline;
-      text-underline-offset: 3px;
     }
+
+    a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
     a:hover { color: var(--accent); }
 
     code {
       font-family: 'Courier New', monospace;
-      font-size: 15px;
+      font-size: 14px;
       background: var(--border);
       padding: 2px 6px;
       border-radius: 3px;
     }
 
-    /* Expandable sections */
-    details { margin: 1.5rem 0; }
-    summary {
-      font-size: 15px;
-      color: var(--accent);
-      cursor: pointer;
-      list-style: none;
+    /* ── Float figures (teaser only) ── */
+    .float-figure-right {
+      float: right;
+      width: 42%;
+      margin: 0.25rem 0 1.5rem 2rem;
     }
-    summary::-webkit-details-marker { display: none; }
-    summary::before { content: '→ '; }
-    details[open] summary::before { content: '↓ '; }
-    .details-body {
-      margin-top: 1rem;
-      padding: 1rem 1.25rem;
+    figure img {
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+    figcaption {
+      font-size: 12.5px;
+      color: var(--text2);
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+    .clearfix::after { content: ''; display: table; clear: both; }
+
+    /* ── Knockout plot sections (figure + text, side by side) ── */
+    .ko-section {
+      display: grid;
+      grid-template-columns: 52% 1fr;
+      gap: 2rem;
+      align-items: start;
+      margin: 2rem 0;
+    }
+    .ko-section figure { margin: 0; }
+    .ko-section .ko-text { padding-top: 0.25rem; }
+    .ko-section .ko-text p { margin-bottom: 0; font-size: 16px; }
+
+    /* ── Figure 4 legend (centered) ── */
+    .figure-centered {
+      margin: 1.75rem auto;
+      max-width: 68%;
+    }
+
+    /* ── Blockquote / Finding ── */
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 1.5rem 0;
+      padding: 0.75rem 1.25rem;
       background: var(--details-bg);
-      border-radius: 6px;
-      font-size: 15px;
+      border-radius: 0 6px 6px 0;
+      font-size: 15.5px;
       color: var(--text2);
       line-height: 1.65;
     }
 
-    /* Video placeholder */
-    .video-fig {
-      background: var(--details-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 3rem 2rem;
-      text-align: center;
-      font-size: 14px;
-      color: var(--text3);
+    /* ── Carousel ── */
+    .examples-carousel {
       margin: 1.5rem 0;
-      font-style: italic;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .model-tabs {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background: var(--details-bg);
+      padding: 0 1rem;
+      overflow-x: auto;
+    }
+    .model-tabs-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text3);
+      padding: 0.75rem 1rem 0.75rem 0;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .model-tab {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1px;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .model-tab:hover { color: var(--text); }
+    .model-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+    .tab-model-name { font-weight: 600; }
+    .tab-model-size { font-size: 11px; color: var(--text3); }
+
+    .model-panels { padding: 1.5rem; }
+    .model-panel { display: none; }
+    .model-panel.active { display: block; }
+
+    .panel-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 1rem; }
+
+    /*
+     * Pair grid: 2-column layout with CSS subgrid so that corresponding rows
+     * (badge, video, audio label, model output) align across both sides.
+     */
+    .pair-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto auto;
+      column-gap: 1.25rem;
+      row-gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    /* Each cell spans all 4 rows and sub-grids its children into those rows */
+    .pair-cell {
+      display: grid;
+      grid-row: span 4;
+      grid-template-rows: subgrid;
+      gap: 0;
+    }
+    /* Children of pair-cell get small row-gaps via margin-top */
+    .pair-cell > * + * { margin-top: 0; }
+
+    .condition-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      width: fit-content;
+      align-self: start;
+    }
+    .badge-factual { background: rgba(34,139,34,0.12); color: #228b22; }
+    [data-theme="dark"] .badge-factual { background: rgba(34,139,34,0.2); color: #6abf6a; }
+    .badge-cf { background: rgba(180,50,50,0.1); color: #b43232; }
+    [data-theme="dark"] .badge-cf { background: rgba(180,50,50,0.2); color: #e07070; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
+
+    .video-slot {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 4px;
+      background: #000;
+    }
+    .video-slot iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+    .info-block { display: flex; flex-direction: column; gap: 3px; align-self: start; }
+    .info-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text3);
+    }
+    .info-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+    .model-output {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.55;
+      background: var(--details-bg);
+      padding: 0.6rem 0.75rem;
+      border-radius: 4px;
+      align-self: start;
     }
 
-    /* Placeholder text */
-    .placeholder {
+    .correct-audio { background: rgba(34,139,34,0.15); color: #228b22; border-radius: 2px; padding: 0 2px; }
+    [data-theme="dark"] .correct-audio { background: rgba(34,139,34,0.25); color: #6abf6a; }
+    .hallucinated { background: rgba(180,50,50,0.12); color: #b43232; border-radius: 2px; padding: 0 2px; }
+    [data-theme="dark"] .hallucinated { background: rgba(180,50,50,0.25); color: #e07070; }
+
+    .analysis-box {
+      background: rgba(216,90,48,0.06);
+      border: 1px solid rgba(216,90,48,0.2);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    [data-theme="dark"] .analysis-box { background: rgba(240,153,123,0.06); border-color: rgba(240,153,123,0.2); }
+    .analysis-text { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+    /* ── Citation ── */
+    .citation-block {
+      background: var(--details-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .cite-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       color: var(--text3);
-      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+    .citation-block pre {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: var(--text2);
+      white-space: pre-wrap;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main-content { padding: 0 1.5rem 6rem; }
+      .float-figure-right { float: none; width: 100%; margin: 1rem 0; }
+      .pair-grid { grid-template-columns: 1fr; }
+      .pair-cell { grid-row: span 1; grid-template-rows: auto; display: flex; flex-direction: column; gap: 0.75rem; }
+      .ko-section { grid-template-columns: 1fr; }
+      .figure-centered { max-width: 100%; }
     }
   </style>
 </head>
 <body>
 
 <div class="topbar">
-  <button class="toggle" onclick="toggleTheme()" id="btn" style="margin-left:auto">
+  <button class="toggle" onclick="toggleTheme()" id="btn">
     <svg id="ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
       <circle cx="8" cy="8" r="3.5"/>
       <line x1="8" y1="1" x2="8" y2="2.5"/>
@@ -225,36 +459,396 @@
   </button>
 </div>
 
-<article>
-  <div class="hero">
-    <h1>Do Audio-Visual Large Language Models Really See and Hear?</h1>
+<div class="page-wrap">
 
-    <div class="hero-authors">
-      <div class="hero-names">
-        Ramaneswaran Selvakumar<sup>*</sup>,
-        Kaousheik Jayakumar<sup>*</sup>,
-        S Sakshi,
-        Sreyan Ghosh,
-        Ruohan Gao<sup>#</sup>,
-        Dinesh Manocha<sup>#</sup>
-      </div>
-      <div class="hero-note"><sup>*</sup>Equal contribution &nbsp;&nbsp; <sup>#</sup>Equal advising</div>
-      <div class="hero-affil">University of Maryland, College Park</div>
-      <div class="hero-venue">CVPR Findings 2026</div>
-      <div class="hero-links">
-        <a href="#" class="pill-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
-          Paper
-        </a>
-        <a href="#" class="pill-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .268.18.58.688.482C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-          Code
-        </a>
+  <!-- ═══ Sidebar ═══ -->
+  <aside class="sidebar">
+    <div class="sidebar-section-label">On This Page</div>
+    <ul class="sidebar-nav">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#examples">Examples</a></li>
+      <li><a href="#how-we-study">How We Study This</a></li>
+      <li><a href="#findings">Findings</a></li>
+      <li class="sub"><a href="#attention-audio">Attention to Audio</a></li>
+      <li class="sub"><a href="#audio-representations">Audio Representations</a></li>
+      <li class="sub"><a href="#cross-modal-flow">Cross-Modal Flow</a></li>
+      <li class="sub"><a href="#vision-bias">Vision Bias Origins</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+      <li><a href="#citation">Citation</a></li>
+    </ul>
+    <div class="sidebar-bottom">
+      <a href="https://arxiv.org/abs/2604.02605">arXiv 2604.02605</a>
+    </div>
+  </aside>
+
+  <!-- ═══ Main content ═══ -->
+  <main class="main-content">
+
+    <div class="hero" id="overview">
+      <h1>Do Audio-Visual Large Language Models Really See and Hear?</h1>
+      <div class="hero-authors">
+        <div class="hero-names">
+          Ramaneswaran Selvakumar<sup>*</sup>,
+          Kaousheik Jayakumar<sup>*</sup>,
+          S Sakshi,
+          Sreyan Ghosh, <br>
+          Ruohan Gao<sup>#</sup>,
+          Dinesh Manocha<sup>#</sup>
+        </div>
+        <div class="hero-note"><sup>*</sup>Equal contribution &nbsp;&nbsp; <sup>#</sup>Equal advising</div>
+        <div class="hero-affil">University of Maryland, College Park</div>
+        <div class="hero-venue">CVPR Findings 2026</div>
+        <div class="hero-links">
+          <a href="https://arxiv.org/abs/2604.02605" class="pill-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+            Paper
+          </a>
+          <a href="https://github.com/ramaneswaran/avllm_interpretability" class="pill-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .268.18.58.688.482C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            Code
+          </a>
+        <a href="https://huggingface.co/datasets/gamma-lab-umd/counterfactual-av-eval" class="pill-btn">
+            🤗 Dataset
+          </a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <hr>
+    <hr>
+
+    <div class="tldr">
+      <div class="tldr-label">TL;DR</div>
+      <div class="tldr-body">AVLLMs exhibit a strong vision bias in audio understanding, hallucinating sounds from what they see rather than what they hear. We conduct mechanistic interpretability experiments showing that rich audio semantics exist internally, cross-modal transfer occurs in mid-to-deep layers where vision dominates, and this bias likely stems from vision-centric training.</div>
+    </div>
+
+    <hr>
+
+<figure class="float-figure-right">
+  <img src="assets/teaser.png" alt="Visual bias in action">
+  <figcaption><strong>Figure 1.</strong> Example demonstrating visual bias in AVLLMs. In this, the visible objects are silent; the only real sound is an off-screen siren. The AVLLM hallucinates audio from what it sees.</figcaption>
+</figure>
+
+<p>AVLLMs have made remarkable progress in jointly understanding audio and visual inputs. But how they actually process and use these modalities internally remains a black box, and this opacity has real consequences.</p>
+
+<p>To see why this matters, consider the safety-critical setting shown in Figure 1: an autonomous vehicle should respond to an off-screen ambulance siren even when it isn't visible. Current AVLLMs would likely fail here, when we stress-test them on scenarios where audio and visual content conflict, they hallucinate sounds from visible objects and miss the actual audio entirely. They have a bias to see, then <em>guess</em> what they should be hearing.</p>
+
+<!-- <p>We curate an evaluation set consisting of such counterfactual samples where audio and visual content conflict, and observe that audio captioning performance drops by <strong>up to 56%</strong>. We then conduct a systematic mechanistic analysis to understand why this happens.</p> -->
+
+<div class="clearfix"></div>
+
+<hr>
+
+<h2 id="examples">Some Qualitative Examples</h2>
+
+<p>Below we show how different AVLLMs hallucinate audio from visual content. Select a model to see its audio-visual captions for <strong>factual</strong> video (which contains the original audio) and <strong>counterfactual</strong> video (with swapped audio)</p>
+
+<div class="examples-carousel" id="carousel-examples">
+  <div class="model-tabs">
+    <div class="model-tabs-label">Model</div>
+    <button class="model-tab active" data-target="examples-qwen3b" onclick="switchTab('carousel-examples','examples-qwen3b')">
+      <span class="tab-model-name">Qwen2.5-Omni</span>
+      <span class="tab-model-size">3B</span>
+    </button>
+    <button class="model-tab" data-target="examples-qwen7b" onclick="switchTab('carousel-examples','examples-qwen7b')">
+      <span class="tab-model-name">Qwen2.5-Omni</span>
+      <span class="tab-model-size">7B</span>
+    </button>
+    <button class="model-tab" data-target="examples-videollama" onclick="switchTab('carousel-examples','examples-videollama')">
+      <span class="tab-model-name">VideoLLaMA2</span>
+      <span class="tab-model-size">7B</span>
+    </button>
+  </div>
+  <div class="model-panels">
+
+    <!-- ═══ Qwen 3B ═══ -->
+    <div class="model-panel active" id="examples-qwen3b">
+      <div class="panel-title">Ducklings Swimming in a Pond</div>
+      <div class="pair-grid">
+        <div class="pair-cell">
+          <div class="condition-badge badge-factual"><span class="dot"></span> Factual</div>
+          <div class="video-slot">
+            <iframe src="https://www.youtube.com/embed/6lxMOGLLAsI" allowfullscreen></iframe>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Audio (Ground Truth)</div>
+            <div class="info-text">Birds are chirping, and ducks are making noises.</div>
+          </div>
+          <div class="model-output">I see a bunch of ducks in the water. There's a big duck in the middle, and a bunch of smaller ones around it. They're all moving around in the water. I also hear <span class="correct-audio">some quacking and a few other bird sounds</span>. It looks like a peaceful scene.</div>
+        </div>
+        <div class="pair-cell">
+          <div class="condition-badge badge-cf"><span class="dot"></span> Counterfactual</div>
+          <div class="video-slot">
+            <iframe src="https://www.youtube.com/embed/_a7FcFWGEYk" allowfullscreen></iframe>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Audio (Swapped — Ground Truth)</div>
+            <div class="info-text">A man speaks followed by a toilet flush.</div>
+          </div>
+          <div class="model-output">I see ducks floating on the water, with a larger one in the center and smaller ones around it. They move gently, creating a calm scene. I hear <span class="hallucinated">quacking and other bird sounds</span>.</div>
+        </div>
+      </div>
+      <div class="analysis-box">
+        <div class="info-label">⚠ Analysis</div>
+        <div class="analysis-text">The model produces <strong>near-identical outputs</strong> across both cases. In the factual case, "quacking and a few other bird sounds" is correct. In the counterfactual case, the audio is <strong>a man speaking followed by a toilet flush</strong>, yet the model still reports hearing "quacking and other bird sounds." It sees ducks and hallucinates the expected duck audio.</div>
+      </div>
+    </div>
+
+    <!-- ═══ Qwen 7B ═══ -->
+    <div class="model-panel" id="examples-qwen7b">
+      <div class="panel-title">Person Typing on a Keyboard</div>
+      <div class="pair-grid">
+        <div class="pair-cell">
+          <div class="condition-badge badge-factual"><span class="dot"></span> Factual</div>
+          <div class="video-slot">
+            <iframe src="https://www.youtube.com/embed/EnoSD68UylY" allowfullscreen></iframe>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Audio (Ground Truth)</div>
+            <div class="info-text">Typing is occurring on a keyboard in a quiet environment.</div>
+          </div>
+          <div class="model-output">Well, I see a close-up of a person's hands typing on a black keyboard. There's a computer monitor in the background, and it seems like there's a piece of paper on the desk too. I can hear <span class="correct-audio">the sound of the keys being pressed</span>, which is pretty clear. It gives off the vibe of someone working on a computer, maybe typing an email or writing a document.</div>
+        </div>
+        <div class="pair-cell">
+          <div class="condition-badge badge-cf"><span class="dot"></span> Counterfactual</div>
+          <div class="video-slot">
+            <iframe src="https://www.youtube.com/embed/0CRgMBFXCAM" allowfullscreen></iframe>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Audio (Swapped — Ground Truth)</div>
+            <div class="info-text">A train running on railroad tracks, followed by a lawn mower engine, then a steam engine whistle blowing as a crowd of people talk.</div>
+          </div>
+          <div class="model-output">Well, I see a close-up of a person's hands typing on a black keyboard. There's a computer monitor in the background, and it seems like there's a piece of paper on the desk too. I can hear <span class="hallucinated">the sound of the keyboard keys clicking</span> as the person types. It's a pretty focused scene.</div>
+        </div>
+      </div>
+      <div class="analysis-box">
+        <div class="info-label">⚠ Analysis</div>
+        <div class="analysis-text">The model produces <strong>near-identical outputs</strong> for both conditions. In the factual case, hearing "the sound of the keys being pressed" is correct. In the counterfactual case, the audio has been replaced with <strong>trains, lawn mowers, and a steam whistle</strong>, yet the model still reports hearing "keyboard keys clicking." The visual content of hands on a keyboard is enough to hallucinate keyboard typing sounds.</div>
+      </div>
+    </div>
+
+    <!-- ═══ VideoLLaMA2 7B ═══ -->
+    <div class="model-panel" id="examples-videollama">
+      <div class="panel-title">Cooking in a Frying Pan</div>
+      <div class="pair-grid">
+        <div class="pair-cell">
+          <div class="condition-badge badge-factual"><span class="dot"></span> Factual</div>
+          <div class="video-slot">
+            <iframe src="https://www.youtube.com/embed/GJW4Q3ge-cw" allowfullscreen></iframe>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Audio (Ground Truth)</div>
+            <div class="info-text">A woman talking followed by plastic thumping, then metal clanking as food and oil sizzles.</div>
+          </div>
+          <div class="model-output">The video shows a person cooking food in a pan on a stove. The main source of sound in the video is <span class="correct-audio">the sizzling and crackling of the food as it cooks</span>.</div>
+        </div>
+        <div class="pair-cell">
+          <div class="condition-badge badge-cf"><span class="dot"></span> Counterfactual</div>
+          <div class="video-slot">
+            <iframe src="https://www.youtube.com/embed/b8NrRdO5uI0" allowfullscreen></iframe>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Audio (Swapped — Ground Truth)</div>
+            <div class="info-text">A series of snores followed by subdued laughter and another snore.</div>
+          </div>
+          <div class="model-output">The video shows a person cooking food in a pan on a stove. The main source of sound in the video is <span class="hallucinated">the sizzling and crackling of of the food as it cooks</span>.</div>
+        </div>
+      </div>
+      <div class="analysis-box">
+        <div class="info-label">⚠ Analysis</div>
+        <div class="analysis-text">In the case of factual audio, the model misses the "woman talking" which is <strong>out of view</strong>, but correctly identifies the sizzling and crackling sounds. However, for the counterfactual case, the model produces <strong>virtually identical outputs</strong></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+<h2 id="how-we-study">How We Study This</h2>
+
+<p><strong>Task:</strong> We ask AVLLMs to describe what they see and hear, a simple task, but one that directly forces the model to use both modalities. And unlike multiple choice or binary QA, free-form captions are interpretable.</p>
+
+<p><strong>Dataset:</strong> In natural videos, audio and visual content are correlated, so vision can confound audio understanding, i.e., the model can infer sounds just from what it sees. To prevent this, we construct <strong>counterfactual samples</strong> by swapping a video's audio with a semantically unrelated track. We curate 500 samples from AudioCaps, half factual, half counterfactual.</p>
+
+<p><strong>Evaluation:</strong> Evaluating free-form captions at scale is hard. We use an <strong>LLM-as-judge</strong> that scores audio and video fidelity separately on a 0-1 scale. It is scalable, and has strong correlation with human judgements (ρ = 0.816 audio, ρ = 0.732 video).</p>
+
+<hr>
+
+<h2 id="findings">Findings</h2>
+
+<h3 id="attention-audio">Does the model pay attention to audio?</h3>
+
+<figure class="float-figure-right">
+  <img src="assets/alt_attention_fraction.png" alt="Attention fraction across layers">
+  <figcaption><strong>Figure 2.</strong> Mean attention from generated to input tokens. Audio gets 40-50% attention in layers 0-5, then drops to near-zero. Video climbs to 20-40% in layers 15-30.</figcaption>
+</figure>
+
+<p>Before asking why audio fails, a more basic question: does the model even <em>attend</em> to audio tokens during generation, or is it effectively ignoring them from the start? If the model never looks at audio, the hallucinations would be unsurprising it would simply be guessing from vision alone.</p>
+
+<p>To test this, we track the <strong>mean attention</strong> that generated tokens allocate to each input modality, video tokens, audio tokens, and query text tokens across every transformer layer of the model.</p>
+
+<div class="clearfix"></div>
+
+<blockquote><strong>Finding:</strong>The model does attend to audio, but only briefly. Audio tokens receive 40-50% of attention in early layers (0-5), then drop to near-zero. Visual attention, by contrast, steadily climbs through deeper layers (15-30), reaching 20-40%.</blockquote>
+
+<h3 id="audio-representations">Are audio representations meaningful?</h3>
+
+<figure class="float-figure-right">
+  <img src="assets/probing.png" alt="Logit lens probing">
+  <figcaption><strong>Figure 3.</strong> Probing audio representations. Audio tokens decode into meaningful sound concepts—including multilingual tokens like 键盘 (keyboard).</figcaption>
+</figure>
+
+<p>We've established that the model does attend to audio tokens, albeit briefly. Next, we ask whether those audio tokens actually encode anything meaningful to begin with. If the representations are not meaningful, the visual bias would simply reflect a lack of useful audio signal, not a failure to use it.</p>
+
+<p>To find out, we probe audio representations using the <strong>logit lens</strong>. This technique decodes hidden states at each audio token position using the model's unembedding matrix, projecting them into probability distributions over the vocabulary. If the representations are meaningful, they should decode into tokens that describe the actual audio content.</p>
+
+<div class="clearfix"></div>
+
+<blockquote><strong>Finding:</strong> Audio representations decode into interpretable tokens that capture sound sources (drill, engine, keyboard) and actions (typing, neighing),  even in multiple languages (键盘/keyboard, 马/horse). Measuring this systematically, the model achieves 61.4% latent audio understanding from its internal representations,  yet generated captions hit only 23% audio fidelity on counterfactual samples. The audio understanding is there internally,  it just isn't making it to the output.</blockquote>
+
+<h3 id="cross-modal-flow">How does cross-modal information flow?</h3>
+
+<p>So the model attends to audio, and encodes meaningful audio semantics internally. But somewhere between those internal representations and the final generated text, audio gets lost. Where exactly does this happen?</p>
+
+<p>To trace this, we use <strong>attention knockout</strong>, a causal intervention that selectively blocks attention from generated tokens to either audio (G↛A) or video (G↛V) at specific layers. The logic is simple: if blocking a modality at a given layer degrades the output, that modality was actively contributing there.</p>
+
+<figure class="figure-centered">
+  <img src="assets/attn_ko_legend.png" alt="Attention knockout setup">
+  <figcaption><strong>Figure 4.</strong> Attention knockout setup. Left: baseline with all attention paths. Middle: G↛V blocks generated tokens from attending to video (orange). Right: G↛A blocks attention to audio (blue).</figcaption>
+</figure>
+
+<p>The setup is illustrated in Figure 4. In the baseline condition, generated tokens (G) can attend to all input tokens, video (V), audio (A), and query (Q). In the G↛V condition (orange), we block the attention pathway from generated tokens to video tokens at a specific layer, forcing the model to rely solely on audio and text. In G↛A (blue), we block attention to audio tokens instead. By sweeping this intervention across layers and measuring how caption fidelity changes, we can pinpoint exactly where each modality contributes to the output.</p>
+
+<!-- Factual knockout plot -->
+<div class="ko-section">
+  <figure>
+    <img src="assets/attn_ko_factual.png" alt="Attention knockout: factual samples">
+    <figcaption><strong>Figure 5a. Factual samples.</strong> Blocking either modality has minimal impact, as the model compensates with the other complementary modality. Video fidelity (A) stays flat when video is blocked; audio fidelity (B) stays flat when audio is blocked.</figcaption>
+  </figure>
+  <div class="ko-text">
+    <p><strong>Factual samples:</strong> When we block either modality, the model compensates using the other—performance recovers either way. As we can observe in plots A and B, neither video nor audio caption fidelity degrades significantly when the corresponding modality is blocked. This demonstrates audio-visual complementarity, but also reveals why factual samples alone are insufficient for evaluation. The modalities are so correlated that the model can always lean on one to cover for the other, which is exactly why counterfactuals are necessary.</p>
+  </div>
+</div>
+
+<!-- Counterfactual knockout plot -->
+<div class="ko-section">
+  <figure>
+    <img src="assets/attn_ko_cfactual.png" alt="Attention knockout: counterfactual samples">
+    <figcaption><strong>Figure 5b. Counterfactual samples.</strong> Blocking video (G↛V, orange) drops video fidelity (C) in deeper layers. Crucially, the same intervention <em>improves</em> audio fidelity (D) by ~50%.</figcaption>
+  </figure>
+  <div class="ko-text">
+    <p><strong>Counterfactual samples:</strong> Here the modalities conflict, so compensation is impossible. In plot C, blocking video (G↛V, orange) causes a clear drop in video understanding concentrated in mid-to-deep layers (15-30)—telling us where visual information transfers to generated text. For audio understanding, blocking audio (G↛A, blue in plot D) produces a similar drop in the same layers, confirming audio transfers there too. But the critical finding is in plot D: <strong>blocking video (orange) actually improves audio understanding by ~50%</strong>, recovering it to near factual-setting levels. When both modalities compete in those deeper layers, vision is preferred at the cost of audio.</p>
+  </div>
+</div>
+
+<blockquote><strong>Finding:</strong> Both audio and video integrate into generated text in the deeper layers of the network. However, vision takes precedence over audio in this integration stage,  and blocking visual pathways in these layers recovers the model's latent audio understanding capabilities.</blockquote>
+
+
+<h3 id="vision-bias">Where does the vision bias originate?</h3>
+
+<p>We know vision dominates in the final layers. But is this because audio training did not sufficiently change the model's behavior to begin with leaving it fundamentally a vision-language model with audio bolted on?</p>
+
+<p>To test this, we compare the <strong>output token distributions</strong> of Qwen2.5-Omni (the AVLLM, with audio input) against Qwen2.5-VL (its base vision-only model, no audio). For each generated token, we measure whether the AVLLM's prediction shifts away from what the vision-only model would predict. If audio meaningfully influences generation, we should see significant distributional shifts.</p>
+
+<p>The examples below illustrate this. Colors indicate how much each token is influenced by audio, <span style="color: blue;">blue</span> tokens are identical to what the vision-only base model would predict, <span style="color: #B8860B;">yellow</span> are close, and <span style="color: red;">red</span> reflect genuine audio understanding. We also visualize the attention, to see what the model attends to while generating a particular token.</p>
+
+<div class="examples-carousel" id="carousel-bias">
+  <div class="model-tabs">
+    <div class="model-tabs-label">Example</div>
+    <button class="model-tab active" data-target="bias-helicopter" onclick="switchTab('carousel-bias','bias-helicopter')">
+      <span class="tab-model-name">Helicopter</span>
+      <span class="tab-model-size">Scene</span>
+    </button>
+    <button class="model-tab" data-target="bias-speech" onclick="switchTab('carousel-bias','bias-speech')">
+      <span class="tab-model-name">Microphone</span>
+      <span class="tab-model-size">Scene</span>
+    </button>
+  </div>
+  <div class="model-panels">
+
+    <div class="model-panel active" id="bias-helicopter">
+      <div class="panel-title">Helicopter Flying Between Buildings</div>
+      <div class="pair-grid">
+        <div class="pair-cell">
+          <div class="info-block">
+            <div class="info-label">Actual Audio</div>
+            <div class="info-text">A young boy talking as a baby yells.</div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Model Says It Hears</div>
+            <div class="model-output">In the video, I hear <span class="hallucinated">the sound of a helicopter</span> flying over a cityscape. The helicopter is moving from left to right, and the city buildings are visible in the background. The sound of the helicopter is clear and distinct, and there is also some background noise that includes a child speaking and some music playing.</div>
+          </div>
+        </div>
+        <div class="pair-cell">
+          <div class="info-block">
+            <div class="info-label">Attention Heatmap</div>
+            <div class="info-text">When generating "the sound of a helicopter," attention concentrates on the helicopter visible in the video, not on the audio tokens.</div>
+          </div>
+          <figure style="margin:0;">
+            <img src="assets/bias_origin_1.png" alt="Attention heatmap: helicopter">
+          </figure>
+        </div>
+      </div>
+      <div class="analysis-box">
+        <div class="info-label">⚠ Analysis</div>
+        <div class="analysis-text">The model is asked only to describe what it hears. The actual audio contains a boy talking and a baby yelling, no helicopter sound. Yet the model generates "the sound of a helicopter" because its attention flows to the <strong>visually salient helicopter</strong> in the video frames. Note that when the model does predict <strong>child speaking</strong> or <strong>music playing</strong>, there is a clear distribution shift from vision-language model</div>
+      </div>
+    </div>
+
+    <div class="model-panel" id="bias-speech">
+      <div class="panel-title">Man Speaking at a Formal Event</div>
+      <div class="pair-grid">
+        <div class="pair-cell">
+          <div class="info-block">
+            <div class="info-label">Actual Audio</div>
+            <div class="info-text">Several motor vehicles accelerating.</div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Model Says It Hears</div>
+            <div class="model-output">In the video, I hear <span class="hallucinated">a man speaking into a microphone</span> while standing at a table. The table is adorned with a large bouquet of white flowers, a bottle of champagne, and several wine glasses. The man is dressed in a white shirt and appears to be addressing an audience...</div>
+          </div>
+        </div>
+        <div class="pair-cell">
+          <div class="info-block">
+            <div class="info-label">Attention Heatmap</div>
+            <div class="info-text">When generating "a man speaking into a microphone," attention locks onto the man and microphone visible in the video, not on the audio tokens.</div>
+          </div>
+          <figure style="margin:0;">
+            <img src="assets/bias_origin_2.png" alt="Attention heatmap: speech">
+          </figure>
+        </div>
+      </div>
+      <div class="analysis-box">
+        <div class="info-label">⚠ Analysis</div>
+        <div class="analysis-text">The actual audio is <strong>motor vehicles accelerating</strong>, no speech at all. But the model sees a man holding a microphone at a formal event and fabricates a detailed description of him "speaking into a microphone" and "addressing an audience."</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<blockquote><strong>Finding:</strong> The distributions are remarkably similar, KL divergence of just 0.4. Of tokens describing audio events, 66% are <em>unshifted</em> (identical top prediction as the vision-only model), and <strong>85% fall within the vision-only model's top 3 predictions</strong>. Notably, when the model does correctly identify audio content, those tokens <em>do</em> shift away from the base LVLM distribution, confirming that genuine audio processing produces distributional shifts. But the model still defaults to its visual priors more often than it should, particularly under conflict.</blockquote>
+
+<hr>
+
+
+<h2 id="citation">Citation</h2>
+
+<div class="citation-block">
+  <div class="cite-label">BibTeX</div>
+  <pre>@misc{selvakumar2026audiovisuallargelanguagemodels,
+      title={Do Audio-Visual Large Language Models Really See and Hear?}, 
+      author={Ramaneswaran Selvakumar and Kaousheik Jayakumar and S Sakshi and Sreyan Ghosh and Ruohan Gao and Dinesh Manocha},
+      year={2026},
+      eprint={2604.02605},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2604.02605}, 
+}</pre>
+</div>
+
+  </main>
+</div>
 
 <script>
   let dark = false;
@@ -281,6 +875,32 @@
         <line x1="11.8" y1="4.2" x2="12.9" y2="3.1"/>`;
     }
   }
+
+  function switchTab(carouselId, targetId) {
+    var carousel = document.getElementById(carouselId);
+    carousel.querySelectorAll('.model-tab').forEach(function(t) { t.classList.remove('active'); });
+    carousel.querySelectorAll('.model-panel').forEach(function(p) { p.classList.remove('active'); });
+    carousel.querySelector('[data-target="' + targetId + '"]').classList.add('active');
+    document.getElementById(targetId).classList.add('active');
+  }
+
+  // Sidebar active link tracking
+  (function() {
+    var sections = document.querySelectorAll('[id]');
+    var links = document.querySelectorAll('.sidebar-nav a');
+    function onScroll() {
+      var scrollY = window.scrollY + 100;
+      var current = 'overview';
+      sections.forEach(function(s) {
+        if (s.offsetTop <= scrollY) current = s.id;
+      });
+      links.forEach(function(a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
 </script>
 
 </body>
